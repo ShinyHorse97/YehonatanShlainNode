@@ -69,15 +69,37 @@ namespace YehonatanShlainNode
             }
             return head;
         }
-
-        public static Node<int> ReverseNodeFromArray(int[] arr)
+         public static void PrintList(Node<int> head)
         {
-            Node<int> n = null;
-            for (int i = 0; i < arr.Length; i++)
+            Node<int> current = head;
+            while (current != null)
             {
-                n = new Node<int>(arr[i], n);
+                Console.Write(current.GetValue() + " -> ");
+                current = current.GetNext();
             }
-            return n;
+            Console.WriteLine("null");
+        }
+        public static int ListCount(Node<int> head)
+        {
+            int count = 0;
+            Node<int> current = head;
+            while (current != null)
+            {
+                count++;
+                current = current.GetNext();
+            }
+            return count;
+        }
+        public static int ListSum(Node<int> head)
+        {
+            int sum = 0;
+            Node<int> current = head;
+            while (current != null)
+            {
+                sum += current.GetValue();
+                current = current.GetNext();
+            }
+            return sum;
         }
 
         static void Main(string[] args)
@@ -86,7 +108,10 @@ namespace YehonatanShlainNode
             Console.WriteLine(ReverseList());
             int[] sampleArray = { 1, 2, 3, 4, 5 };
             Console.WriteLine(CreateNodeFromArray(sampleArray));
-            Console.WriteLine(ReverseNodeFromArray(sampleArray));
+            Node<int> node = CreateList();
+            PrintList(node);
+            Console.WriteLine("The number of nodes in the list: " + ListCount(node));
+
         }
     }
 }
