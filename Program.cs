@@ -101,17 +101,73 @@ namespace YehonatanShlainNode
             }
             return sum;
         }
-
+        public static int AvgList(Node<int> head)
+        {
+            int sum = ListSum(head);
+            int count = ListCount(head);
+            return sum / count;
+        }
+        // הפעולה מקבלת כפרמטר שרשרת חוליות ממוינת בסדר עולה ומספר שלם
+        // הפעולה מכניסה את המספר במקום המתאים בשרשרת
+        public static Node<int> InsertToUpChain(Node<int> lst, int num)
+        {
+            Node<int> pos = lst; // שומרים את ההצבעה לראש השרשרת מבלי לפגוע בה
+            // כשהמספר קטן מערך החולייה הראשונה:
+            // מקרה מיוחד
+            if (num < lst.GetValue())
+                lst = new Node<int>(num, lst); // דוחפים את החולייה החדשה לראש השרשרת
+            else  // מקרה רגיל - מחפשים מיקום בתוך השרשרת
+            {
+                // כל עוד יש לנו חולייה הבאה וכן הערך של החולייה הבאה עדיין קטן מהמספר
+                while (pos.GetNext() != null && pos.GetNext().GetValue() < num)
+                {
+                    pos = pos.GetNext(); // מתקדמים צעד קדימה בשרשרת
+                }
+                // יצאנו מהלולאה, אז אנחנו במקום המתאים להוסיף את החולייה החדשה במיקום הזה
+                // גם אם הגענו לסוף השרשרת-החולייה האחרונה, אז ברור שצריך להוסיף את החולייה בסוף הזה
+                //set the next to a new node with his next as the next of pos!!
+                pos.SetNext(new Node<int>(num, pos.GetNext()));
+            }
+            return lst; // מחזירים את ראש השרשרת (שלא השתנה אם לא היה מקרה מיוחד)
+        }
+        public static Node<int> InsertToDownChain(Node<int> lst, int num)
+        {
+            Node<int> pos = lst; // שומרים את ההצבעה לראש השרשרת מבלי לפגוע בה
+            // כשהמספר גדול מערך החולייה הראשונה:
+            // מקרה מיוחד
+            if (num > lst.GetValue())
+                lst = new Node<int>(num, lst); // דוחפים את החולייה החדשה לראש השרשרת
+            else  // מקרה רגיל - מחפשים מיקום בתוך השרשרת
+            {
+                // כל עוד יש לנו חולייה הבאה וכן הערך של החולייה הבאה עדיין גדול מהמספר
+                while (pos.GetNext() != null && pos.GetNext().GetValue() > num)
+                {
+                    pos = pos.GetNext(); // מתקדמים צעד קדימה בשרשרת
+                }
+                // יצאנו מהלולאה, אז אנחנו במקום המתאים להוסיף את החולייה החדשה במיקום הזה
+                // גם אם הגענו לסוף השרשרת-החולייה האחרונה, אז ברור שצריך להוסיף את החולייה בסוף הזה
+                //set the next to a new node with his next as the next of pos!!
+                pos.SetNext(new Node<int>(num, pos.GetNext()));
+            }
+            return lst; // מחזירים את ראש השרשרת (שלא השתנה אם לא היה מקרה מיוחד)
+        }
         static void Main(string[] args)
         {
             Console.WriteLine(CreateList());
             Console.WriteLine(ReverseList());
-            int[] sampleArray = { 1, 2, 3, 4, 5 };
+            int[] sampleArray = { 1, 2, 3, 4, 6 };
             Console.WriteLine(CreateNodeFromArray(sampleArray));
             Node<int> node = CreateList();
             PrintList(node);
             Console.WriteLine("The number of nodes in the list: " + ListCount(node));
-
+            Console.WriteLine("The sum of values in the list: " + ListSum(node));
+            Console.WriteLine("The average of value in the list: " + AvgList(node));
+            Node<int> upChain = CreateNodeFromArray(new int[] { 1, 3, 5, 7, 9 });
+            PrintList(upChain);
+            Console.WriteLine(InsertToUpChain(upChain, 6));
+            Node<int> downChain = CreateNodeFromArray(new int[] { 9, 7, 5, 3, 1 });
+            PrintList(downChain);
+            Console.WriteLine(InsertToDownChain(downChain, 6));
         }
     }
 }
