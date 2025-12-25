@@ -151,23 +151,87 @@ namespace YehonatanShlainNode
             }
             return lst; // מחזירים את ראש השרשרת (שלא השתנה אם לא היה מקרה מיוחד)
         }
+        
+        public static int MaxValue(Node<int> head)
+        {
+            int max = head.GetValue();
+            Node<int> current = head.GetNext();
+            while (current != null)
+            {
+                if (current.GetValue() > max)
+                {
+                    max = current.GetValue();
+                }
+                current = current.GetNext();
+            }
+            return max;
+        }
+        public static int MinValue(Node<int> head)
+        {
+            int min = head.GetValue();
+            Node<int> current = head.GetNext();
+            while (current != null)
+            {
+                if (current.GetValue() < min)
+                {
+                    min = current.GetValue();
+                }
+                current = current.GetNext();
+            }
+            return min;
+        }
+        //3.2
+
+        public static bool IsArranged(Node<int> head)
+        {
+            if (ListCount(head) % 2  != 0)
+                return false;
+            Node<int> FirstHalf = head;
+            Node<int> SecondHalf = head;
+            for (int i = 0; i < ListCount(head) / 2; i++)
+            {
+                SecondHalf = SecondHalf.GetNext();
+            }
+            if (MaxValue(FirstHalf)> MinValue(SecondHalf))
+                return true;
+            return false;
+        }
+        public
+
+
+         // 3.3
+         public static int ToNumber(Queue<int> digits)
+        {
+            int number = 0;
+            int multiplier = 1;
+            while (digits.Count > 0)
+            {
+                int digit = digits.Dequeue();
+                number += digit * multiplier;
+                multiplier *= 10;
+            }
+            return number;
+        }
+        public static int BigNumber(Node<Queue<int>> Node)
+        {
+            int maxNumber = 0;
+            Node<Queue<int>> current = Node;
+            while (current != null)
+            {
+                int number = ToNumber(current.GetValue());
+                if (number > maxNumber)
+                {
+                    maxNumber = number;
+                }
+                current = current.GetNext();
+            }
+            return maxNumber;
+        }
+
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine(CreateList());
-            Console.WriteLine(ReverseList());
-            int[] sampleArray = { 1, 2, 3, 4, 6 };
-            Console.WriteLine(CreateNodeFromArray(sampleArray));
-            Node<int> node = CreateList();
-            PrintList(node);
-            Console.WriteLine("The number of nodes in the list: " + ListCount(node));
-            Console.WriteLine("The sum of values in the list: " + ListSum(node));
-            Console.WriteLine("The average of value in the list: " + AvgList(node));
-            Node<int> upChain = CreateNodeFromArray(new int[] { 1, 3, 5, 7, 9 });
-            PrintList(upChain);
-            Console.WriteLine(InsertToUpChain(upChain, 6));
-            Node<int> downChain = CreateNodeFromArray(new int[] { 9, 7, 5, 3, 1 });
-            PrintList(downChain);
-            Console.WriteLine(InsertToDownChain(downChain, 6));
         }
     }
 }
